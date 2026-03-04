@@ -41,8 +41,16 @@ def normalize(self):
     {}
     """
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    # using the provided total() method to sum the vals in distribution
+    total = self.total()
 
+    # when distribution is empty or all vals zero - do nothing
+    if total == 0:
+        return
+
+    # dividing each val in-place by the total so all vals sum to one
+    for key in self:
+        self[key] = self[key] / total
 def sample(self):
     """
     Draw a random sample from the distribution and return the key, weighted
@@ -65,7 +73,25 @@ def sample(self):
     0.0
     """
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    # sorting items in consistent order
+    items = sorted(self.items())
+    keys = [item[0] for item in items]
+    values = [item[1] for item in items]
+
+    # summing vals manually
+    total = sum(values)
+
+    # generating a random number using random.random()
+    pick = random.random() * total
+
+    # walking through cumulative sums r
+    cumulative = 0
+    for key, value in zip(keys, values):
+        cumulative += value
+        if pick < cumulative:
+            return key
+
+    return keys[-1]
 
 
 def getObservationProb(self, noisyDistance, pacmanPosition, ghostPosition, jailPosition):
@@ -73,7 +99,20 @@ def getObservationProb(self, noisyDistance, pacmanPosition, ghostPosition, jailP
     Return the probability P(noisyDistance | pacmanPosition, ghostPosition).
     """
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    # if the ghost in jail, returns none
+    if ghostPosition == jailPosition:
+        if noisyDistance is None:
+            return 1.0
+        else:
+            return 0.0
+
+    # if reading is none but the ghost is not in jail, its not possible
+    if noisyDistance is None:
+        return 0.0
+
+    # computing true Manhattan distance between Pacman and the ghost get P(noisyDistance | trueDistance)
+    trueDistance = util.manhattanDistance(pacmanPosition, ghostPosition)
+    return busters.getObservationProbability(noisyDistance, trueDistance)
 
 
 
