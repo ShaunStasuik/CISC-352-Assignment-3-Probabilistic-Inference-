@@ -41,16 +41,17 @@ def normalize(self):
     {}
     """
     "*** YOUR CODE HERE ***"
-    # using the provided total() method to sum the vals in distribution
+    # Using the provided total() method to sum the values in the distribution
     total = self.total()
 
-    # when distribution is empty or all vals zero - do nothing
+    # When the distribution is empty or all values equal to zero - do nothing
     if total == 0:
         return
 
-    # dividing each val in-place by the total so all vals sum to one
+    # dividing each value in-place by the total so all values sum to one
     for key in self:
         self[key] = self[key] / total
+
 def sample(self):
     """
     Draw a random sample from the distribution and return the key, weighted
