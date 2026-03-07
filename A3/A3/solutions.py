@@ -133,7 +133,23 @@ def observeUpdate(self, observation, gameState):
     position is known.
     """
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    pacmanPosition = gameState.getPacmanPosition()
+    jailPosition = self.getJailPosition()
+
+    if observation is None:
+        for pos in self.allPositions:
+            self.beliefs[pos] = 0.0
+        self.beliefs[jailPosition] = 1.0
+        return
+
+    for pos in self.allPositions:
+        self.beliefs[pos] *= self.getObservationProb(
+            observation,
+            pacmanPosition,
+            pos,
+            jailPosition
+        )
+
     self.beliefs.normalize()
 
 
@@ -147,4 +163,14 @@ def elapseTime(self, gameState):
     current position is known.
     """
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+
+    newBeliefs = self.beliefs.__class__()
+
+    for oldPos in self.allPositions:
+        oldProb = self.beliefs[oldPos]
+        newPosDist = self.getPositionDistribution(gameState, oldPos)
+
+        for newPos in newPosDist:
+            newBeliefs[newPos] += oldProb * newPosDist[newPos]
+
+    self.beliefs = newBeliefs
