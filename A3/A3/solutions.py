@@ -79,7 +79,7 @@ def sample(self):
     keys = [item[0] for item in items]
     values = [item[1] for item in items]
 
-    # summing vals manually
+    # summing values manually
     total = sum(values)
 
     # generating a random number using random.random()
