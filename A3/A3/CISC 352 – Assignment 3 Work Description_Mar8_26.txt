@@ -1,0 +1,24 @@
+CISC 352 – Assignment 3
+Group Number: 70
+
+Student Information:
+
+1. Shaun Stasuik
+   Student Number: 20389739
+   NetID: 22QH17
+
+2. Daryan Lindsay
+   Student Number: 20383488
+   NetID: 22GMV4
+
+3. Tirthkumar Patel
+   Student Number: 20442158
+   NetID: 23DWN3
+
+Contribution Description:
+
+Tirthkumar Patel implemented Questions 1 and 2 in solutions.py, including the normalize, sample, and getObservationProb functions.
+
+Daryan Lindsay implemented Questions 3 and 4 in solutions.py, including the observeUpdate method for updating belief distributions based on observations and the elapseTime method for updating beliefs over time.
+
+Shaun Stasuik implemented Question 5 in bustersAgents.py, including the chooseAction method for the GreedyBustersAgent.
