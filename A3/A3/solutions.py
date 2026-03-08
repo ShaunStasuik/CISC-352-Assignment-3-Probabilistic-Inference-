@@ -133,15 +133,18 @@ def observeUpdate(self, observation, gameState):
     position is known.
     """
     "*** YOUR CODE HERE ***"
+    # Get Pacman's current position and the jail position for the ghost
     pacmanPosition = gameState.getPacmanPosition()
     jailPosition = self.getJailPosition()
 
+    # Special case: if the observation is None, the ghost must be in jail.
     if observation is None:
         for pos in self.allPositions:
             self.beliefs[pos] = 0.0
         self.beliefs[jailPosition] = 1.0
         return
 
+    # Apply Bayesian update for each possible ghost position.
     for pos in self.allPositions:
         self.beliefs[pos] *= self.getObservationProb(
             observation,
@@ -150,6 +153,7 @@ def observeUpdate(self, observation, gameState):
             jailPosition
         )
 
+    # Normalize the beliefs so the probabilities sum to 1
     self.beliefs.normalize()
 
 
@@ -164,12 +168,14 @@ def elapseTime(self, gameState):
     """
     "*** YOUR CODE HERE ***"
 
+    # Create a new distribution to store updated beliefs after the ghost moves
     newBeliefs = self.beliefs.__class__()
 
     for oldPos in self.allPositions:
         oldProb = self.beliefs[oldPos]
         newPosDist = self.getPositionDistribution(gameState, oldPos)
 
+        # Distribute the previous probability across all possible new positions
         for newPos in newPosDist:
             newBeliefs[newPos] += oldProb * newPosDist[newPos]
 
